@@ -40,7 +40,7 @@ const specialCases = [
   {
     title: "守卫与女巫同守",
     icon: "⚔️",
-    description: "如果守卫守护的人同时被女巫用解药救，该玩家会因"奶死"而死亡",
+    description: "如果守卫守护的人同时被女巫用解药救，该玩家会因「奶死」而死亡",
   },
   {
     title: "毒死与枪杀",
