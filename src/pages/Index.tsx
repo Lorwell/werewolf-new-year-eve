@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
-import { Moon, ChevronRight, BookOpen, ScrollText, Mic } from "lucide-react";
+import { Moon, ChevronRight, BookOpen, ScrollText, Mic, HelpCircle } from "lucide-react";
 import BottomNav from "@/components/layout/BottomNav";
+import { terminologyData } from "@/data/terminology";
 
 const Index = () => {
   return (
@@ -90,6 +91,34 @@ const Index = () => {
             </div>
             <ChevronRight className="w-5 h-5 text-muted-foreground" />
           </Link>
+        </div>
+
+        {/* 术语快速跳转 */}
+        <div className="mb-8">
+          <Link
+            to="/terminology"
+            className="flex items-center gap-3 mb-4 group"
+          >
+            <HelpCircle className="w-5 h-5 text-villager" />
+            <h2 className="text-lg font-serif font-semibold text-foreground group-hover:text-primary transition-colors">
+              术语速查
+            </h2>
+            <ChevronRight className="w-4 h-4 text-muted-foreground ml-auto" />
+          </Link>
+          <div className="grid grid-cols-4 gap-2">
+            {terminologyData.map((category) => (
+              <Link
+                key={category.category}
+                to={`/terminology#cat-${category.category}`}
+                className="flex flex-col items-center gap-1.5 p-3 rounded-lg bg-card/40 border border-border/30 hover:bg-card/60 hover:border-villager/40 hover:scale-[1.05] transition-all duration-200"
+              >
+                <span className="text-2xl">{category.icon}</span>
+                <span className="text-xs text-center text-foreground/80 leading-tight">
+                  {category.category.slice(0, 4)}
+                </span>
+              </Link>
+            ))}
+          </div>
         </div>
 
         {/* 底部提示 */}

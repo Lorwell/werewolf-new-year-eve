@@ -1,12 +1,34 @@
-import { useState, useMemo } from "react";
+import {useState, useMemo, useEffect} from "react";
+import {useLocation} from "react-router-dom";
 import PageLayout from "@/components/layout/PageLayout";
-import { Card, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { terminologyData } from "@/data/terminology";
-import { Search } from "lucide-react";
+import {Card, CardContent} from "@/components/ui/card";
+import {Input} from "@/components/ui/input";
+import {terminologyData} from "@/data/terminology";
+import {Search} from "lucide-react";
 
 const Terminology = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const {hash} = useLocation();
+
+  // 处理锚点滚动
+  useEffect(() => {
+    if (hash) {
+      const id = decodeURIComponent(hash.replace("#", ""));
+      // 延迟确保页面渲染完成
+      setTimeout(() => {
+        const element = document.getElementById(id);
+        if (element) {
+          const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
+          const offsetPosition = elementPosition - 120; // 避开sticky搜索栏
+
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: "smooth"
+          });
+        }
+      }, 300);
+    }
+  }, [hash]);
 
   const filteredData = useMemo(() => {
     if (!searchQuery.trim()) {
@@ -32,11 +54,11 @@ const Terminology = () => {
 
   return (
     <PageLayout title="狼人杀术语">
-      <div className="px-4 py-6 space-y-6 pb-20">
+      <div className="px-4 pt-0 pb-20 space-y-6">
         {/* Search Input */}
-        <div className="sticky top-0 z-10 bg-background/95 backdrop-blur-sm -mx-4 px-4 pt-2 pb-4">
+        <div className="sticky top-[52px] z-30 bg-background/95 backdrop-blur-sm -mx-4 px-4 pt-2 pb-4 border-b border-border/30">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground"/>
             <Input
               type="text"
               placeholder="搜索术语、含义或提示..."
@@ -59,30 +81,30 @@ const Terminology = () => {
           </div>
         ) : (
           filteredData.map((category) => (
-          <section key={category.category}>
-            <div className="flex items-center gap-2 mb-3">
-              <span className="text-xl">{category.icon}</span>
-              <h2 className="text-base font-serif font-semibold text-primary">{category.category}</h2>
-              <span className="text-xs text-muted-foreground">({category.terms.length})</span>
-            </div>
-            <div className="space-y-2">
-              {category.terms.map((item, index) => (
-                <Card key={index} className="bg-gradient-card border-border/50">
-                  <CardContent className="p-4">
-                    <div className="flex items-start gap-3">
+            <section key={category.category} id={`cat-${category.category}`} className="scroll-mt-28">
+              <div className="flex items-center gap-2 mb-3">
+                <span className="text-xl">{category.icon}</span>
+                <h2 className="text-base font-serif font-semibold text-primary">{category.category}</h2>
+                <span className="text-xs text-muted-foreground">({category.terms.length})</span>
+              </div>
+              <div className="space-y-2">
+                {category.terms.map((item, index) => (
+                  <Card key={index} className="bg-gradient-card border-border/50">
+                    <CardContent className="p-4">
+                      <div className="flex items-start gap-3">
                       <span className="text-primary font-semibold min-w-[90px] flex-shrink-0">
                         {item.term}
                       </span>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-sm text-foreground/90 leading-relaxed">{item.meaning}</p>
-                        <p className="text-xs text-muted-foreground mt-1.5">💡 {item.tip}</p>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm text-foreground/90 leading-relaxed">{item.meaning}</p>
+                          <p className="text-xs text-muted-foreground mt-1.5">💡 {item.tip}</p>
+                        </div>
                       </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </section>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </section>
           ))
         )}
       </div>
