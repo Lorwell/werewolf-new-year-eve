@@ -12,7 +12,7 @@ const Index = () => {
   useEffect(() => {
     // 调试模式：直接显示彩蛋按钮
     setShowEasterEgg(true);
-    // setIsAfterMidnight(true); // 取消注释可测试跳过倒计时的效果
+    setIsAfterMidnight(true); // 测试跳过倒计时直接显示祝福
     
     /* 正式版本：
     const checkTime = () => {
