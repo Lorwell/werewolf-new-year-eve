@@ -4,16 +4,18 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ChevronLeft, Trophy, Swords, Lightbulb, AlertTriangle } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-const campColors = {
+const campColors: Record<string, string> = {
   wolf: "text-accent",
   seer: "text-seer",
   villager: "text-villager",
+  special: "text-primary",
 };
 
-const campBgColors = {
+const campBgColors: Record<string, string> = {
   wolf: "bg-accent/10 border-accent/30",
   seer: "bg-seer/10 border-seer/30",
   villager: "bg-villager/10 border-villager/30",
+  special: "bg-primary/10 border-primary/30",
 };
 
 const RoleDetail = () => {

@@ -4,16 +4,18 @@ import { roles } from "@/data/roles";
 import { cn } from "@/lib/utils";
 import { ChevronRight } from "lucide-react";
 
-const campStyles = {
+const campStyles: Record<string, string> = {
   wolf: "card-wolf",
   seer: "card-seer",
   villager: "card-villager",
+  special: "bg-gradient-to-br from-amber-950/80 to-amber-900/40 border-amber-700/50",
 };
 
 const Roles = () => {
   const wolfRoles = roles.filter(r => r.camp === "wolf");
   const seerRoles = roles.filter(r => r.camp === "seer");
   const villagerRoles = roles.filter(r => r.camp === "villager");
+  const specialRoles = roles.filter(r => r.camp === "special");
 
   const RoleCard = ({ role }: { role: typeof roles[0] }) => (
     <Link
@@ -77,6 +79,19 @@ const Roles = () => {
           </div>
           <div className="space-y-3">
             {villagerRoles.map(role => (
+              <RoleCard key={role.id} role={role} />
+            ))}
+          </div>
+        </section>
+
+        {/* 特殊身份 */}
+        <section>
+          <div className="flex items-center gap-2 mb-4">
+            <div className="w-3 h-3 rounded-full bg-primary" />
+            <h2 className="text-lg font-serif font-semibold text-primary">特殊身份</h2>
+          </div>
+          <div className="space-y-3">
+            {specialRoles.map(role => (
               <RoleCard key={role.id} role={role} />
             ))}
           </div>
