@@ -2,7 +2,7 @@ export interface Role {
   id: string;
   name: string;
   icon: string;
-  camp: "wolf" | "seer" | "villager";
+  camp: "wolf" | "seer" | "villager" | "special";
   campName: string;
   shortDesc: string;
   description: string;
@@ -276,6 +276,46 @@ export const roles: Role[] = [
       "村民是好人阵营的重要票数",
       "不要因为没技能就随便发言",
       "可以选择跟票或归票给某人",
+    ],
+  },
+  {
+    id: "sheriff",
+    name: "警长",
+    icon: "🏅",
+    camp: "special",
+    campName: "特殊身份",
+    shortDesc: "由玩家投票选出，拥有1.5票",
+    description: "警长不是发牌时获得的身份，而是游戏开始后由玩家投票选出的特殊身份。警长拥有1.5票的投票权重，并且可以决定每轮的发言顺序。警长死亡时需要将警徽传递给其他玩家。",
+    winCondition: "警长的胜利条件取决于其原本的身份阵营",
+    skills: [
+      "拥有1.5票的投票权重",
+      "决定每轮发言的起始玩家和方向",
+      "死亡时可指定警徽继承人",
+      "可以选择撕毁警徽使其失效",
+    ],
+    strategies: [
+      {
+        title: "竞选时机",
+        content: "预言家通常会上警竞选，但也可能选择隐藏身份",
+      },
+      {
+        title: "发言顺序",
+        content: "合理安排发言顺序，让可信的人先发言带节奏",
+      },
+      {
+        title: "警徽传递",
+        content: "死亡前要想好警徽传给谁，传递信息给好人",
+      },
+      {
+        title: "警徽流",
+        content: "通过指定警徽继承顺序来传递查验信息",
+      },
+    ],
+    notes: [
+      "任何身份都可以竞选警长",
+      "狼人也可能竞选警长来带节奏",
+      "警徽传递是重要的信息传递方式",
+      "平票时警长可以决定谁出局或进行PK",
     ],
   },
 ];
