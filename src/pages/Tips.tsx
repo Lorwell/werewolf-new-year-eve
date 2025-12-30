@@ -116,7 +116,6 @@ const commonMistakes = [
 ];
 
 const terminology = [
-  { term: "版子", meaning: "游戏的角色配置，如12人预女猎白" },
   { term: "神民狼", meaning: "神职、平民、狼人的简称" },
   { term: "上警", meaning: "竞选警长的行为" },
   { term: "警徽流", meaning: "预言家指定验人顺序和警徽传递" },
