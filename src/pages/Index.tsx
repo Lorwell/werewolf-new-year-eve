@@ -1,10 +1,50 @@
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Moon, ChevronRight, BookOpen, ScrollText, Mic } from "lucide-react";
+import { Moon, ChevronRight, BookOpen, ScrollText, Mic, Sparkles } from "lucide-react";
 import BottomNav from "@/components/layout/BottomNav";
+import NewYearCelebration from "@/components/NewYearCelebration";
 
 const Index = () => {
+  const [showEasterEgg, setShowEasterEgg] = useState(false);
+  const [showCelebration, setShowCelebration] = useState(false);
+  const [isAfterMidnight, setIsAfterMidnight] = useState(false);
+
+  useEffect(() => {
+    const checkTime = () => {
+      const now = new Date();
+      const countdownStart = new Date("2025-12-31T23:58:00");
+      const midnight = new Date("2026-01-01T00:00:00");
+
+      // 检查是否显示彩蛋按钮 (23:58之后)
+      if (now >= countdownStart) {
+        setShowEasterEgg(true);
+      }
+
+      // 检查是否已过午夜
+      if (now >= midnight) {
+        setIsAfterMidnight(true);
+      }
+    };
+
+    checkTime();
+    const interval = setInterval(checkTime, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const handleEasterEggClick = () => {
+    setShowCelebration(true);
+  };
+
   return (
     <div className="min-h-screen bg-gradient-dark relative overflow-hidden">
+      {/* 新年庆祝弹窗 */}
+      {showCelebration && (
+        <NewYearCelebration
+          onClose={() => setShowCelebration(false)}
+          skipCountdown={isAfterMidnight}
+        />
+      )}
+
       {/* 背景装饰 */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {/* 月亮 */}
@@ -30,6 +70,17 @@ const Index = () => {
 
       {/* 主要内容 */}
       <div className="relative z-10 flex flex-col min-h-screen px-6 pt-16 pb-24">
+        {/* 彩蛋按钮 - 隐藏在标题旁边 */}
+        {showEasterEgg && (
+          <button
+            onClick={handleEasterEggClick}
+            className="absolute top-4 left-4 w-10 h-10 rounded-full bg-red-600/20 border border-red-500/30 flex items-center justify-center text-yellow-400 hover:bg-red-600/40 hover:scale-110 transition-all duration-300 animate-pulse"
+            title="新年惊喜"
+          >
+            <Sparkles className="w-5 h-5" />
+          </button>
+        )}
+
         {/* 标题区域 */}
         <div className="text-center mb-12 animate-fade-in">
           <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-primary/10 border border-primary/30 mb-6">
