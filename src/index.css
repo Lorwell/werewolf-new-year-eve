@@ -146,3 +146,28 @@
     @apply bg-accent text-accent-foreground hover:bg-accent/90 transition-all duration-300;
   }
 }
+
+/* 自定义滚动条样式 - 低调不突出 */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted) / 0.3);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted) / 0.5);
+}
+
+/* Firefox 滚动条 */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: hsl(var(--muted) / 0.3) transparent;
+}
