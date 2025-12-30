@@ -6,22 +6,20 @@ interface NewYearCelebrationProps {
   skipCountdown?: boolean;
 }
 
+// 中国古诗词新年祝福
 const BLESSINGS = [
-  "新年快乐！",
-  "万事如意",
-  "心想事成",
-  "龙马精神",
-  "福星高照",
-  "恭喜发财",
-  "阖家欢乐",
-  "前程似锦",
-  "事业有成",
-  "身体健康",
-  "蛇年大吉",
-  "吉祥如意",
-  "步步高升",
-  "好运连连",
-  "财源广进",
+  "爆竹声中一岁除，春风送暖入屠苏",
+  "千门万户曈曈日，总把新桃换旧符",
+  "但愿人长久，千里共婵娟",
+  "海上生明月，天涯共此时",
+  "春风得意马蹄疾，一日看尽长安花",
+  "长风破浪会有时，直挂云帆济沧海",
+  "天生我材必有用，千金散尽还复来",
+  "会当凌绝顶，一览众山小",
+  "山重水复疑无路，柳暗花明又一村",
+  "莫愁前路无知己，天下谁人不识君",
+  "潮平两岸阔，风正一帆悬",
+  "沉舟侧畔千帆过，病树前头万木春",
 ];
 
 const LANTERN_COLORS = [
@@ -58,11 +56,12 @@ const Firework = ({ x, y, color }: { x: number; y: number; color: string }) => {
 // 飘落的祝福语
 const FloatingBlessing = ({ text, delay, x }: { text: string; delay: number; x: number }) => (
   <div
-    className="absolute text-xl md:text-2xl font-serif text-yellow-300 animate-float-blessing whitespace-nowrap"
+    className="absolute text-base md:text-lg font-serif text-yellow-300 whitespace-nowrap opacity-0"
     style={{
       left: `${x}%`,
-      animationDelay: `${delay}s`,
+      top: "-50px",
       textShadow: "0 0 10px rgba(255, 215, 0, 0.8), 0 0 20px rgba(255, 100, 0, 0.5)",
+      animation: `floatBlessing 12s ease-in-out ${delay}s infinite`,
     }}
   >
     {text}
@@ -72,8 +71,12 @@ const FloatingBlessing = ({ text, delay, x }: { text: string; delay: number; x: 
 // 灯笼组件
 const Lantern = ({ x, delay, colorClass }: { x: number; delay: number; colorClass: string }) => (
   <div
-    className="absolute top-0 animate-lantern-swing"
-    style={{ left: `${x}%`, animationDelay: `${delay}s` }}
+    className="absolute top-0"
+    style={{ 
+      left: `${x}%`,
+      animation: `lanternSwing 4s ease-in-out ${delay}s infinite`,
+      transformOrigin: "top center",
+    }}
   >
     <div className="relative">
       {/* 灯笼绳 */}
@@ -98,7 +101,11 @@ const Lantern = ({ x, delay, colorClass }: { x: number; delay: number; colorClas
       {/* 灯笼穗 */}
       <div className="flex justify-center gap-0.5">
         {[...Array(5)].map((_, i) => (
-          <div key={i} className="w-0.5 h-6 bg-yellow-500 animate-tassel" style={{ animationDelay: `${i * 0.1}s` }} />
+          <div 
+            key={i} 
+            className="w-0.5 h-6 bg-yellow-500" 
+            style={{ animation: `tasselSway 2s ease-in-out ${i * 0.1}s infinite` }} 
+          />
         ))}
       </div>
     </div>
@@ -108,10 +115,17 @@ const Lantern = ({ x, delay, colorClass }: { x: number; delay: number; colorClas
 // 金币/元宝动画
 const GoldCoin = ({ x, delay }: { x: number; delay: number }) => (
   <div
-    className="absolute animate-coin-fall"
-    style={{ left: `${x}%`, animationDelay: `${delay}s` }}
+    className="absolute opacity-0"
+    style={{ 
+      left: `${x}%`,
+      top: "-30px",
+      animation: `coinFall 6s ease-in ${delay}s infinite`,
+    }}
   >
-    <div className="w-6 h-6 bg-gradient-to-br from-yellow-300 via-yellow-500 to-amber-600 rounded-full shadow-lg animate-coin-spin">
+    <div 
+      className="w-6 h-6 bg-gradient-to-br from-yellow-300 via-yellow-500 to-amber-600 rounded-full shadow-lg"
+      style={{ animation: "coinSpin 1s linear infinite" }}
+    >
       <div className="absolute inset-1 border border-yellow-300/50 rounded-full" />
     </div>
   </div>
