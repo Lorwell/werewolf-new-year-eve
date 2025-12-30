@@ -7,6 +7,7 @@ import Index from "./pages/Index";
 import QuickStart from "./pages/QuickStart";
 import GameRules from "./pages/GameRules";
 import Judge from "./pages/Judge";
+import Terminology from "./pages/Terminology";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -24,6 +25,7 @@ const App = () => (
           <Route path="/quickstart" element={<QuickStart />} />
           <Route path="/rules" element={<GameRules />} />
           <Route path="/judge" element={<Judge />} />
+          <Route path="/terminology" element={<Terminology />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

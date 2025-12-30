@@ -3,28 +3,12 @@ import PageLayout from "@/components/layout/PageLayout";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
-import { Play, Pause, RotateCcw, Volume2 } from "lucide-react";
-
-const voiceCommands = [
-  { id: "close-eyes", label: "天黑请闭眼", file: "close-eyes.mp3" },
-  { id: "wolf-open", label: "狼人请睁眼", file: "wolf-open.mp3" },
-  { id: "wolf-close", label: "狼人请闭眼", file: "wolf-close.mp3" },
-  { id: "seer-open", label: "预言家请睁眼", file: "seer-open.mp3" },
-  { id: "seer-close", label: "预言家请闭眼", file: "seer-close.mp3" },
-  { id: "witch-open", label: "女巫请睁眼", file: "witch-open.mp3" },
-  { id: "witch-close", label: "女巫请闭眼", file: "witch-close.mp3" },
-  { id: "guard-open", label: "守卫请睁眼", file: "guard-open.mp3" },
-  { id: "guard-close", label: "守卫请闭眼", file: "guard-close.mp3" },
-  { id: "open-eyes", label: "天亮了请睁眼", file: "open-eyes.mp3" },
-  { id: "vote-start", label: "开始投票", file: "vote-start.mp3" },
-  { id: "last-words", label: "请发表遗言", file: "last-words.mp3" },
-];
+import { Play, Pause, RotateCcw } from "lucide-react";
 
 const Judge = () => {
   const [time, setTime] = useState(120);
   const [maxTime, setMaxTime] = useState(120);
   const [isRunning, setIsRunning] = useState(false);
-  const [playingId, setPlayingId] = useState<string | null>(null);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
@@ -47,11 +31,6 @@ const Judge = () => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
     return `${mins}:${secs.toString().padStart(2, "0")}`;
-  };
-
-  const handlePlayVoice = (id: string) => {
-    setPlayingId(id);
-    setTimeout(() => setPlayingId(null), 2000);
   };
 
   const resetTimer = () => {
@@ -123,40 +102,6 @@ const Judge = () => {
                   <span>3分钟</span>
                 </div>
               </div>
-            </CardContent>
-          </Card>
-        </section>
-
-        {/* 语音播报 */}
-        <section>
-          <h2 className="text-lg font-serif font-semibold text-primary mb-4 flex items-center gap-2">
-            <span>🎤</span>
-            语音播报
-          </h2>
-
-          <Card className="bg-gradient-card border-border/50">
-            <CardContent className="py-4">
-              <p className="text-sm text-muted-foreground mb-4 flex items-center gap-2">
-                <Volume2 className="w-4 h-4" />
-                点击按钮播放对应语音（需上传音频文件）
-              </p>
-
-              <div className="grid grid-cols-2 gap-2">
-                {voiceCommands.map((cmd) => (
-                  <Button
-                    key={cmd.id}
-                    variant={playingId === cmd.id ? "default" : "secondary"}
-                    className="h-auto py-3 text-sm"
-                    onClick={() => handlePlayVoice(cmd.id)}
-                  >
-                    {cmd.label}
-                  </Button>
-                ))}
-              </div>
-
-              <p className="text-xs text-muted-foreground mt-4 text-center">
-                将MP3文件放入 public/audio/ 目录即可使用
-              </p>
             </CardContent>
           </Card>
         </section>

@@ -1,10 +1,11 @@
 import { Link, useLocation } from "react-router-dom";
-import { Home, BookOpen, ScrollText, Mic } from "lucide-react";
+import { Home, BookOpen, ScrollText, Mic, GraduationCap } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const navItems = [
   { path: "/", label: "首页", icon: Home },
   { path: "/quickstart", label: "入门", icon: BookOpen },
+  { path: "/terminology", label: "术语", icon: GraduationCap },
   { path: "/rules", label: "规则", icon: ScrollText },
   { path: "/judge", label: "法官", icon: Mic },
 ];

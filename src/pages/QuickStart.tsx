@@ -84,32 +84,6 @@ const badgeRules = [
   },
 ];
 
-// 术语
-const terminology = [
-  { term: "神民狼", meaning: "神职、平民、狼人的简称" },
-  { term: "上警", meaning: "竞选警长的行为" },
-  { term: "警徽流", meaning: "预言家指定验人顺序和警徽传递" },
-  { term: "金水", meaning: "被预言家验为好人的玩家" },
-  { term: "银水", meaning: "被女巫救过的玩家" },
-  { term: "查杀", meaning: "被预言家验为狼人的玩家" },
-  { term: "悍跳", meaning: "狼人假装预言家跳身份" },
-  { term: "对跳", meaning: "两个预言家互相对抗" },
-  { term: "倒钩", meaning: "狼人假装好人投狼人" },
-  { term: "深水", meaning: "隐藏很深不发言的狼人" },
-  { term: "归票", meaning: "号召大家投同一个人" },
-  { term: "撕警徽", meaning: "警长死亡时不传递警徽" },
-];
-
-// 常见错误
-const commonMistakes = [
-  "不要说「我发誓」，这是场外话",
-  "不要亮牌给其他人看",
-  "不要在闭眼时偷看",
-  "不要盲目跳身份",
-  "不要放弃发言时间",
-  "不要盲目跟风投票",
-];
-
 const QuickStart = () => {
   const [expandedRole, setExpandedRole] = useState<string | null>(null);
 
@@ -175,10 +149,9 @@ const QuickStart = () => {
     <PageLayout title="快速入门">
       <div className="px-4 py-6 space-y-6">
         <Tabs defaultValue="roles" className="w-full">
-          <TabsList className="grid w-full grid-cols-3 mb-4">
+          <TabsList className="grid w-full grid-cols-2 mb-4">
             <TabsTrigger value="roles" className="text-xs">角色一览</TabsTrigger>
             <TabsTrigger value="flow" className="text-xs">游戏流程</TabsTrigger>
-            <TabsTrigger value="tips" className="text-xs">新手必知</TabsTrigger>
           </TabsList>
 
           {/* 角色一览 */}
@@ -307,75 +280,6 @@ const QuickStart = () => {
                 <span className="bg-secondary px-2 py-1 rounded whitespace-nowrap">女巫</span>
                 <span className="text-primary">→</span>
                 <span className="bg-secondary px-2 py-1 rounded whitespace-nowrap">预言家</span>
-              </div>
-            </section>
-          </TabsContent>
-
-          {/* 新手必知 */}
-          <TabsContent value="tips" className="space-y-6">
-            {/* 术语表 */}
-            <section>
-              <h2 className="text-base font-serif font-semibold text-primary flex items-center gap-2 mb-3">
-                <span>📖</span>
-                狼人杀术语
-              </h2>
-              <Card className="bg-gradient-card border-border/50">
-                <CardContent className="pt-4">
-                  <div className="grid grid-cols-1 gap-2">
-                    {terminology.map((item, index) => (
-                      <div key={index} className="flex items-start gap-3 text-xs border-b border-border/30 pb-2 last:border-0 last:pb-0">
-                        <span className="text-primary font-medium min-w-[60px]">{item.term}</span>
-                        <span className="text-foreground/80">{item.meaning}</span>
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            </section>
-
-            {/* 常见错误 */}
-            <section>
-              <h2 className="text-base font-serif font-semibold text-accent flex items-center gap-2 mb-3">
-                <span>⚠️</span>
-                新手避坑
-              </h2>
-              <Card className="bg-accent/10 border-accent/30">
-                <CardContent className="pt-4">
-                  <ul className="space-y-2">
-                    {commonMistakes.map((mistake, index) => (
-                      <li key={index} className="flex items-start gap-2 text-xs">
-                        <span className="text-accent mt-0.5">✗</span>
-                        <span className="text-foreground/90">{mistake}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </CardContent>
-              </Card>
-            </section>
-
-            {/* 发言框架 */}
-            <section className="glass-card p-4 rounded-xl border-glow">
-              <h3 className="font-serif font-semibold text-primary mb-3 flex items-center gap-2 text-sm">
-                <span>💡</span>
-                发言框架参考
-              </h3>
-              <div className="space-y-2 text-xs text-foreground/90">
-                <div>
-                  <span className="text-primary font-medium">开场：</span>
-                  <span className="text-muted-foreground">表明身份或站边</span>
-                </div>
-                <div>
-                  <span className="text-primary font-medium">分析：</span>
-                  <span className="text-muted-foreground">点评其他玩家的发言</span>
-                </div>
-                <div>
-                  <span className="text-primary font-medium">结论：</span>
-                  <span className="text-muted-foreground">给出你认为的狼人或好人</span>
-                </div>
-                <div>
-                  <span className="text-primary font-medium">呼吁：</span>
-                  <span className="text-muted-foreground">号召大家投票的方向</span>
-                </div>
               </div>
             </section>
           </TabsContent>

@@ -1,10 +1,9 @@
+/* 狼人杀跨年夜 - 暗黑神秘风格设计系统 */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;600&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-/* 狼人杀跨年夜 - 暗黑神秘风格设计系统 */
-
-@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;600&display=swap');
 
 @layer base {
   :root {
