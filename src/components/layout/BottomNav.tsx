@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { Home, Users, GitBranch, Lightbulb, MessageSquare, Trophy, Mic } from "lucide-react";
+import { Home, Users, GitBranch, Lightbulb, MessageSquare, Trophy, Mic, Rocket } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const navItems = [
@@ -8,6 +8,7 @@ const navItems = [
   { path: "/flow", label: "流程", icon: GitBranch },
   { path: "/tips", label: "技巧", icon: Lightbulb },
   { path: "/rules", label: "规则", icon: MessageSquare },
+  { path: "/advanced", label: "进阶", icon: Rocket },
   { path: "/victory", label: "胜利", icon: Trophy },
   { path: "/judge", label: "法官", icon: Mic },
 ];
