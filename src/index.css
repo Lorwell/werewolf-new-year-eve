@@ -184,33 +184,24 @@
   }
 }
 
-@keyframes float-blessing {
+@keyframes floatBlessing {
   0% {
-    transform: translateY(100vh) rotate(-5deg);
+    transform: translateY(0);
     opacity: 0;
   }
-  10% {
-    opacity: 1;
+  5% {
+    opacity: 0.9;
   }
-  90% {
-    opacity: 1;
+  95% {
+    opacity: 0.9;
   }
   100% {
-    transform: translateY(-100vh) rotate(5deg);
+    transform: translateY(110vh);
     opacity: 0;
   }
 }
 
-@keyframes lantern-swing {
-  0%, 100% {
-    transform: rotate(-5deg);
-  }
-  50% {
-    transform: rotate(5deg);
-  }
-}
-
-@keyframes tassel {
+@keyframes lanternSwing {
   0%, 100% {
     transform: rotate(-3deg);
   }
@@ -219,21 +210,33 @@
   }
 }
 
-@keyframes coin-fall {
+@keyframes tasselSway {
+  0%, 100% {
+    transform: rotate(-2deg);
+  }
+  50% {
+    transform: rotate(2deg);
+  }
+}
+
+@keyframes coinFall {
   0% {
-    transform: translateY(-100px);
+    transform: translateY(0);
     opacity: 0;
   }
-  10% {
+  5% {
     opacity: 1;
   }
+  95% {
+    opacity: 0.8;
+  }
   100% {
-    transform: translateY(100vh);
+    transform: translateY(110vh);
     opacity: 0;
   }
 }
 
-@keyframes coin-spin {
+@keyframes coinSpin {
   0% {
     transform: rotateY(0deg);
   }
