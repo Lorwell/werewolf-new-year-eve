@@ -10,17 +10,20 @@ const Index = () => {
   const [isAfterMidnight, setIsAfterMidnight] = useState(false);
 
   useEffect(() => {
+    // 调试模式：直接显示彩蛋按钮
+    setShowEasterEgg(true);
+    // setIsAfterMidnight(true); // 取消注释可测试跳过倒计时的效果
+    
+    /* 正式版本：
     const checkTime = () => {
       const now = new Date();
       const countdownStart = new Date("2025-12-31T23:58:00");
       const midnight = new Date("2026-01-01T00:00:00");
 
-      // 检查是否显示彩蛋按钮 (23:58之后)
       if (now >= countdownStart) {
         setShowEasterEgg(true);
       }
 
-      // 检查是否已过午夜
       if (now >= midnight) {
         setIsAfterMidnight(true);
       }
@@ -29,6 +32,7 @@ const Index = () => {
     checkTime();
     const interval = setInterval(checkTime, 1000);
     return () => clearInterval(interval);
+    */
   }, []);
 
   const handleEasterEggClick = () => {
