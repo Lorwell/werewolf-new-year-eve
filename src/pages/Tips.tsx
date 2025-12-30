@@ -189,11 +189,10 @@ const Tips = () => {
     <PageLayout title="新手技巧">
       <div className="px-4 py-6 space-y-6">
         <Tabs defaultValue="roles" className="w-full">
-          <TabsList className="grid w-full grid-cols-4 mb-4">
+          <TabsList className="grid w-full grid-cols-3 mb-4">
             <TabsTrigger value="roles" className="text-xs">角色</TabsTrigger>
             <TabsTrigger value="terms" className="text-xs">术语</TabsTrigger>
             <TabsTrigger value="mistakes" className="text-xs">避坑</TabsTrigger>
-            <TabsTrigger value="path" className="text-xs">进阶</TabsTrigger>
           </TabsList>
 
           {/* 各角色技巧 */}
@@ -291,50 +290,6 @@ const Tips = () => {
             </div>
           </TabsContent>
 
-          {/* 进阶路径 */}
-          <TabsContent value="path" className="space-y-4">
-            <h2 className="text-lg font-serif font-semibold text-primary flex items-center gap-2">
-              <span>📈</span>
-              学习路径
-            </h2>
-            
-            {learningPath.map((stage) => (
-              <Card key={stage.level} className="bg-gradient-card border-border/50">
-                <CardHeader className="pb-2">
-                  <CardTitle className="flex items-center gap-2 text-base">
-                    <span className="text-xl">{stage.icon}</span>
-                    <span className={`text-${stage.color} font-serif`}>{stage.level}</span>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <ul className="space-y-2">
-                    {stage.items.map((item, index) => (
-                      <li key={index} className="flex items-start gap-2 text-sm">
-                        <span className={`text-${stage.color} mt-1`}>•</span>
-                        <span className="text-foreground/90">{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </CardContent>
-              </Card>
-            ))}
-
-            {/* 提升技巧 */}
-            <div className="glass-card p-4 rounded-xl border-glow">
-              <h3 className="font-serif font-semibold text-seer mb-3 flex items-center gap-2">
-                <span>🚀</span>
-                提升技巧
-              </h3>
-              <div className="grid grid-cols-2 gap-3">
-                {improvementTips.map((item, index) => (
-                  <div key={index} className="bg-background/50 rounded-lg p-3">
-                    <div className="text-seer font-medium text-sm">{item.tip}</div>
-                    <div className="text-muted-foreground text-xs mt-1">{item.desc}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </TabsContent>
         </Tabs>
       </div>
     </PageLayout>
