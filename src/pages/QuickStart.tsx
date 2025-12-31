@@ -14,56 +14,78 @@ const campStyles: Record<string, string> = {
   special: "bg-gradient-to-br from-amber-950/80 to-amber-900/40 border-amber-700/50",
 };
 
+// 夜晚行动步骤
+const nightActions = [
+  { role: "守卫", action: "选择守护一名玩家", note: "首夜建议空守，避免与女巫解药冲突" },
+  { role: "狼人", action: "睁眼确认同伴，统一意见刀杀一人", note: "" },
+  { role: "女巫", action: "获知被刀玩家，可选择使用解药（救）或毒药（毒）", note: "两者每局各仅一次" },
+  { role: "预言家", action: "查验一名玩家身份（好人/狼人）", note: "" },
+  { role: "猎人", action: "仅在首夜睁眼确认身份", note: "之后夜晚全程闭眼" },
+];
+
+// 第一天白天子流程
+const dayOneSubsections = [
+  {
+    title: "公布死讯",
+    icon: "📢",
+    steps: [
+      "法官宣布昨晚死亡情况",
+      "若无人死亡 → 平安夜",
+      "若有人死亡 → 公布死者编号",
+      "首夜死亡者可发表遗言（后续夜晚死亡者无遗言）",
+    ],
+  },
+  {
+    title: "上警环节",
+    icon: "👮",
+    steps: [
+      "想竞选警长的玩家举手【上警】",
+      "上警玩家依次发言（通常30–60秒）",
+      "阐述身份、逻辑或查验信息",
+      "所有存活玩家投票选出警长",
+      "得票最多者当选警长，获得警徽（拥有归票权，投票计为1.5票）",
+      "若平票，则进行PK发言后再次投票",
+      "若仍平票，则本局无警长",
+    ],
+  },
+  {
+    title: "自由发言与投票",
+    icon: "🗣️",
+    steps: [
+      "警长决定发言顺序（通常从死者下家或警长下家开始）",
+      "所有玩家依次发言分析局势",
+      "发言结束后进行投票",
+      "得票最高者出局并发表遗言（无论是否首夜）",
+    ],
+  },
+];
+
+// 白狼王自爆规则
+const whiteWolfExplode = {
+  title: "白狼王自爆",
+  icon: "💥",
+  note: "白狼王可在白天任意时刻选择自爆",
+  effect: "亮明身份，指定带走一名玩家，立即终止当前白天流程，直接进入黑夜",
+};
+
 // 流程步骤
 const flowSteps = [
   {
-    phase: "准备阶段",
-    icon: "🎴",
-    steps: ["法官洗牌并发放身份牌", "玩家确认自己的身份，不得展示给他人", "法官宣布游戏开始"],
-  },
-  {
-    phase: "警长竞选",
-    icon: "👮",
-    steps: [
-      "法官宣布：想要竞选警长的玩家请举手",
-      "竞选者按顺序发表竞选演讲（每人30秒）",
-      "非竞选者投票选出警长",
-      "得票最高者当选警长，票数相同则PK",
-      "警长获得1.5票权重和决定发言顺序的权力",
-    ],
-  },
-  {
-    phase: "夜间阶段",
+    phase: "第一夜（首夜）",
     icon: "🌙",
-    steps: [
-      "法官宣布：天黑请闭眼",
-      "守卫行动：选择守护一名玩家",
-      "狼人行动：睁眼确认同伴，商议杀人目标",
-      "女巫行动：查看死亡玩家，选择是否救人或毒人",
-      "预言家行动：选择查验一名玩家身份",
-      "法官宣布：天亮了，请睁眼",
-    ],
+    intro: "所有玩家闭眼，法官依次唤醒以下角色使用技能：",
   },
   {
-    phase: "白天阶段",
+    phase: "第一天白天",
     icon: "☀️",
-    steps: [
-      "法官公布昨晚死亡情况",
-      "死亡玩家发表遗言（可选）",
-      "警长决定发言顺序",
-      "存活玩家依次发言（每人限时）",
-      "发言结束后进入投票环节",
-    ],
+    intro: "天亮了，请睁眼！",
   },
   {
-    phase: "投票放逐",
-    icon: "🗳️",
+    phase: "后续日夜循环",
+    icon: "🔄",
     steps: [
-      "警长宣布开始投票",
-      "所有存活玩家同时投票",
-      "法官统计票数，宣布结果",
-      "得票最高者被放逐（有遗言时间）",
-      "票数相同时由警长决定或进行PK",
+      "重复【夜晚行动 → 白天讨论 → 投票放逐】流程",
+      "直至达成任一阵营的胜利条件",
     ],
   },
 ];
@@ -73,7 +95,7 @@ const badgeRules = [
   {
     title: "警徽流规则",
     content: [
-      "警长死亡时必须移交警徽",
+      "警长死亡时可以移交警徽",
       "警长可指定警徽传递给场上任意存活玩家",
       "新警长继承1.5票权重",
     ],
@@ -210,24 +232,59 @@ const QuickStart = () => {
           </TabsContent>
 
           {/* 游戏流程 */}
-          <TabsContent value="flow" className="space-y-6">
-            {/* 流程步骤 */}
+          <TabsContent value="flow" className="space-y-4">
+            {/* 第一夜 */}
+            <section>
+              <Card className="bg-gradient-card border-primary/30">
+                <CardHeader className="pb-2">
+                  <CardTitle className="flex items-center gap-3 text-sm">
+                    <span className="text-xl">🌙</span>
+                    <span className="text-primary font-serif">第一夜（首夜）</span>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="pt-0 space-y-3">
+                  <p className="text-xs text-muted-foreground">所有玩家闭眼，法官依次唤醒以下角色使用技能：</p>
+                  <ol className="space-y-2">
+                    {nightActions.map((action, index) => (
+                      <li key={index} className="bg-background/30 rounded-lg p-3">
+                        <div className="flex items-start gap-2">
+                          <span className="w-5 h-5 rounded-full bg-primary/20 text-primary text-xs flex items-center justify-center flex-shrink-0 mt-0.5">
+                            {index + 1}
+                          </span>
+                          <div className="flex-1 min-w-0">
+                            <p className="text-xs font-semibold text-foreground">{action.role}</p>
+                            <p className="text-xs text-foreground/80 mt-0.5">{action.action}</p>
+                            {action.note && (
+                              <p className="text-xs text-muted-foreground mt-1 italic">💡 {action.note}</p>
+                            )}
+                          </div>
+                        </div>
+                      </li>
+                    ))}
+                  </ol>
+                </CardContent>
+              </Card>
+            </section>
+
+            {/* 第一天白天 */}
             <section className="space-y-3">
-              {flowSteps.map((phase, index) => (
-                <Card key={phase.phase} className="bg-gradient-card border-border/50">
+              <div className="flex items-center gap-2">
+                <span className="text-xl">☀️</span>
+                <h2 className="text-base font-serif font-semibold text-primary">第一天白天</h2>
+              </div>
+              {dayOneSubsections.map((subsection, index) => (
+                <Card key={subsection.title} className="bg-gradient-card border-border/50">
                   <CardHeader className="pb-2">
-                    <CardTitle className="flex items-center gap-3 text-sm">
-                      <span className="text-xl">{phase.icon}</span>
-                      <span className="text-primary font-serif">
-                        {index + 1}. {phase.phase}
-                      </span>
+                    <CardTitle className="flex items-center gap-2 text-xs text-seer">
+                      <span>{subsection.icon}</span>
+                      <span>（{index + 1}）{subsection.title}</span>
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="pt-0">
                     <ol className="space-y-1.5">
-                      {phase.steps.map((step, stepIndex) => (
+                      {subsection.steps.map((step, stepIndex) => (
                         <li key={stepIndex} className="flex items-start gap-2 text-xs">
-                          <span className="w-4 h-4 rounded-full bg-primary/20 text-primary text-[10px] flex items-center justify-center flex-shrink-0 mt-0.5">
+                          <span className="w-4 h-4 rounded-full bg-seer/20 text-seer text-[10px] flex items-center justify-center flex-shrink-0 mt-0.5">
                             {stepIndex + 1}
                           </span>
                           <span className="text-foreground/90">{step}</span>
@@ -237,6 +294,44 @@ const QuickStart = () => {
                   </CardContent>
                 </Card>
               ))}
+
+              {/* 白狼王自爆 */}
+              <Card className="bg-gradient-to-br from-accent/10 to-accent/5 border-accent/50 border-glow">
+                <CardHeader className="pb-2">
+                  <CardTitle className="flex items-center gap-2 text-xs text-accent">
+                    <span>{whiteWolfExplode.icon}</span>
+                    <span>⚠️ {whiteWolfExplode.title}</span>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="pt-0 space-y-2">
+                  <p className="text-xs text-foreground/90">{whiteWolfExplode.note}</p>
+                  <p className="text-xs text-accent font-medium">{whiteWolfExplode.effect}</p>
+                </CardContent>
+              </Card>
+            </section>
+
+            {/* 后续日夜循环 */}
+            <section>
+              <Card className="bg-gradient-card border-villager/30">
+                <CardHeader className="pb-2">
+                  <CardTitle className="flex items-center gap-3 text-sm">
+                    <span className="text-xl">🔄</span>
+                    <span className="text-villager font-serif">后续日夜循环</span>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="pt-0">
+                  <ul className="space-y-1.5">
+                    <li className="flex items-start gap-2 text-xs">
+                      <span className="text-villager mt-0.5">•</span>
+                      <span className="text-foreground/90">重复【夜晚行动 → 白天讨论 → 投票放逐】流程</span>
+                    </li>
+                    <li className="flex items-start gap-2 text-xs">
+                      <span className="text-villager mt-0.5">•</span>
+                      <span className="text-foreground/90">直至达成任一阵营的胜利条件</span>
+                    </li>
+                  </ul>
+                </CardContent>
+              </Card>
             </section>
 
             {/* 警徽流规则 */}
@@ -263,23 +358,6 @@ const QuickStart = () => {
                     </CardContent>
                   </Card>
                 ))}
-              </div>
-            </section>
-
-            {/* 夜间顺序提示 */}
-            <section className="glass-card p-4 rounded-xl border-glow">
-              <h3 className="font-serif font-semibold text-primary mb-3 flex items-center gap-2 text-sm">
-                <span>🌙</span>
-                夜间行动顺序
-              </h3>
-              <div className="flex items-center gap-2 text-xs text-muted-foreground overflow-x-auto pb-2">
-                <span className="bg-secondary px-2 py-1 rounded whitespace-nowrap">守卫</span>
-                <span className="text-primary">→</span>
-                <span className="bg-accent/20 text-accent px-2 py-1 rounded whitespace-nowrap">狼人</span>
-                <span className="text-primary">→</span>
-                <span className="bg-secondary px-2 py-1 rounded whitespace-nowrap">女巫</span>
-                <span className="text-primary">→</span>
-                <span className="bg-secondary px-2 py-1 rounded whitespace-nowrap">预言家</span>
               </div>
             </section>
           </TabsContent>
