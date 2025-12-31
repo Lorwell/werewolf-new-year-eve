@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { Home, BookOpen, ScrollText, Mic, GraduationCap } from "lucide-react";
+import { Home, BookOpen, ScrollText, Mic, GraduationCap, Gamepad2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const navItems = [
@@ -7,6 +7,7 @@ const navItems = [
   { path: "/quickstart", label: "入门", icon: BookOpen },
   { path: "/terminology", label: "术语", icon: GraduationCap },
   { path: "/rules", label: "规则", icon: ScrollText },
+  { path: "/game", label: "对局", icon: Gamepad2 },
   { path: "/judge", label: "法官", icon: Mic },
 ];
 
@@ -19,23 +20,23 @@ const BottomNav = () => {
         {navItems.map((item) => {
           const isActive = location.pathname === item.path;
           const Icon = item.icon;
-          
+
           return (
             <Link
               key={item.path}
               to={item.path}
               className={cn(
                 "flex flex-col items-center justify-center w-full h-full py-2 transition-all duration-300",
-                isActive 
-                  ? "text-primary" 
+                isActive
+                  ? "text-primary"
                   : "text-muted-foreground hover:text-foreground"
               )}
             >
-              <Icon 
+              <Icon
                 className={cn(
                   "w-6 h-6 mb-1 transition-all duration-300",
                   isActive && "drop-shadow-[0_0_8px_hsl(var(--primary))]"
-                )} 
+                )}
               />
               <span className={cn(
                 "text-xs font-medium",

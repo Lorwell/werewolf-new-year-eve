@@ -19,11 +19,11 @@ const PageLayout = ({ children, title, showNav = true }: PageLayoutProps) => {
           </div>
         </header>
       )}
-      
+
       <main className={`max-w-lg mx-auto ${showNav ? 'pb-20' : ''}`}>
         {children}
       </main>
-      
+
       {showNav && <BottomNav />}
     </div>
   );

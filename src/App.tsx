@@ -9,6 +9,7 @@ import QuickStart from "./pages/QuickStart";
 import GameRules from "./pages/GameRules";
 import Judge from "./pages/Judge";
 import Terminology from "./pages/Terminology";
+import GameRecord from "./pages/GameRecord";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -34,6 +35,7 @@ const App = () => (
         <ScrollToTop />
         <Routes>
           <Route path="/" element={<Index />} />
+          <Route path="/game" element={<GameRecord />} />
           <Route path="/quickstart" element={<QuickStart />} />
           <Route path="/rules" element={<GameRules />} />
           <Route path="/judge" element={<Judge />} />
